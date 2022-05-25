@@ -5,18 +5,19 @@ names = ["John Smith","Rebecca Briggs"]
 usernames = ["jsmith","rbriggs"]
 passwords = ["123","456"]
 
-hashed_passwords = stauth.hasher(passwords).generate()
+hashed_passwords = stauth.Hasher(passwords).generate()
 
-authenticator = stauth.authenticate(
-	names, usernames, hashed_passwords, "cookie_name", "signature_key", cookie_expiry_days=30
+authenticator = stauth.Authenticate(
+	names, usernames, hashed_passwords, "some_cookie_name", "some_signature_key", cookie_expiry_days=30
 )
 
 
-name, authentication_status = authenticator.login("Login","sidebar")
+name, authentication_status, username = authenticator.login("Login", "sidebar")
 
 if authentication_status:
+	authenticator.logout("Logout", "sidebar")
 	st.write(f"Welcome *{name}*")
-	# your application
+	st.title("Some content")
 
 elif authentication_status == False:
 	st.error("Username/password is incorrect")
